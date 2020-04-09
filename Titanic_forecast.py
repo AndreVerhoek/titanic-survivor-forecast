@@ -8,8 +8,13 @@ from sklearn.tree import DecisionTreeClassifier
 df = pd.read_csv('Data/train.csv',index_col = 'PassengerId')
 print(list(df.columns.values))
 
-X = df[['Sex','Age','SibSp','Parch','Embarked']]
+df['Sex'] = df['Sex'].map({'female': 1, 'male': 0})
+df = df.dropna()
+
+X = df[['Sex','Age']]
 y = df[['Survived']]
 
-tree_clf_entropy = DecisionTreeClassifier(max_depth=2, random_state=42, criterion='entropy')
-tree_clf_entropy.fit(X,y)
+lin_reg = LinearRegression()
+lin_reg.fit(X, y)
+print(lin_reg.intercept_)
+print(lin_reg.coef_)
